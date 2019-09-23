@@ -29,17 +29,16 @@ function customerStart() {
   connection.query("SELECT * FROM auctions", function (err, res) {
     if (err) throw err;
     var info;
-    // for (var i = 0; i < res.length; i++) {
-    //   info = '';
-    //   info += 'Item ID: ' + res[i].item_id + '\n';
-    //   info += 'Product Name: ' + res[i].product_name + '\n';
-    //   info += 'Department: ' + res[i].department_name + '\n';
-    //   info += 'Price: $' + res[i].price + '\n \n';
+    for (var i = 0; i < res.length; i++) {
+      info = '';
+      info += 'Item ID: ' + res[i].item_id + '\n';
+      info += 'Product Name: ' + res[i].product_name + '\n';
+      info += 'Department: ' + res[i].department_name + '\n';
+      info += 'Price: $' + res[i].price + '\n \n';
 
-    //   console.log(info);
-    // }
-    console.log("result", JSON.parse(JSON.stringify(res)));
-    // inquireItems();
+      console.log(info);
+    }
+    // console.log("result", JSON.parse(JSON.stringify(res)));
     inquirer.prompt([
       {
         type: "input",
@@ -53,14 +52,9 @@ function customerStart() {
       },
     ])
       .then(function (answer) {
-        //
-        // console.log("answer.itemIdQuery " + answer.itemIdQuery)
-        // for (var i in rows) {
-        //   console.log(rows[i]);
-        // }
+
         var i = (parseInt(answer.itemIdQuery) - 1);
-        // console.log("rowsstockquantity " + res[i].stock_quantity);
-        // console.log("answer.quantity " + answer.quantity);
+
         if (answer.quantity <= res[i].stock_quantity
         ) {
           var query = connection.query(
@@ -76,28 +70,25 @@ function customerStart() {
             ],
             function (err, res) {
               if (err) throw err;
-              // console.log(res[i].product_name + " inventory updated!\n");
-              // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
-              // console.log("The total cost of your purchase will be $" + totalPrice);
-              // console.log("answquant " + parseInt(answer.quantity));
+
             }
           );
           var itemCost = parseInt(res[i].price);
-          // console.log("itemcost " + itemCost);
+
           var itemQuant = parseInt(answer.quantity);
-          // console.log("itemQuant" + itemQuant);
+
           var totalPrice = (itemCost * itemQuant);
           console.log(res[i].product_name + " inventory updated!\n");
           console.log("The total cost of your purchase will be $" + totalPrice);
-          // console.log("answquant " + parseInt(answer.quantity));
+
         }
         else {
           console.log("Insufficient Quantity")
-          // connection.end();
+
         }
         restartQuery();
       });
-    // connection.end();
+
   });
 }
 
@@ -110,7 +101,7 @@ function restartQuery() {
       choices: ["Restart", "EXIT"]
     })
     .then(function (answer) {
-      // based on their answer, either call the bid or the post functions
+      // based on their answer, either call the restart or exit functions
       if (answer.restartOrEnd === "Restart") {
         customerStart();
       }
