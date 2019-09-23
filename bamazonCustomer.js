@@ -25,59 +25,63 @@ connection.connect(function (err) {
 
 // function which prompts the user for id of that item they would like to buy
 function customerStart() {
-  readItems();
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "itemIdQuery",
-      message: "Please enter the id of the item you would like to purchase."
-    },
-    {
-      name: "quantity",
-      type: "input",
-      message: "What quantity of the item would you like to buy?"
-    },
-  ])
-    .then(function (answer) {
-      //
-      console.log("answer.itemIdQuery " + answer.itemIdQuery)
-      var i = answer.itemIdQuery;
-      if (answer.quantity >= rows[i].stock_quantity
-      ) {
-        var query = connection.query(
-          "UPDATE auctions SET ? WHERE ?",
-          [
-            {
-              //ParseInt, ParseFloat? Add set after colon
-              stock_quantity: --answer.quantity
-            },
-            {
-              item_id: answer.itemIdQuery
-            }
-          ],
-          function (err, res) {
-            if (err) throw err;
-            console.log(res.affectedRows + " inventory updated!\n");
-          }
-        );
-        console.log("The total cost of your purchase will be ");
-      }
-      else {
-        console.log("Insufficient Quantity")
-        // connection.end();
-      }
-    });
-}
-
-function readItems() {
   console.log("Displaying information for all items...\n");
   connection.query("SELECT * FROM auctions", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.log(res);
-    connection.end();
+    // inquireItems();
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "itemIdQuery",
+        message: "Please enter the id of the item you would like to purchase."
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "What quantity of the item would you like to buy?"
+      },
+    ])
+      .then(function (answer) {
+        //
+        console.log("answer.itemIdQuery " + answer.itemIdQuery)
+        // for (var i in rows) {
+        //   console.log(rows[i]);
+        // }
+        // var i = answer.itemIdQuery;
+        console.log("rowsstockquantity " + res[0].stock_quantity);
+        if (answer.quantity <= res[0].stock_quantity
+        ) {
+          var query = connection.query(
+            "UPDATE auctions SET ? WHERE ?",
+            [
+              {
+                //ParseInt, ParseFloat? Add set after colon
+                stock_quantity: --answer.quantity
+              },
+              {
+                item_id: answer.itemIdQuery
+              }
+            ],
+            function (err, res) {
+              if (err) throw err;
+              console.log(res.affectedRows + " inventory updated!\n");
+            }
+          );
+          console.log("The total cost of your purchase will be $" + (res[0].price * answer.quantity));
+        }
+        else {
+          console.log("Insufficient Quantity")
+          // connection.end();
+        }
+      });
+    // connection.end();
   });
 }
+// function inquireItems() {
+
+// }
 
 // // function to handle posting new items up for auction
 // function postAuction() {
