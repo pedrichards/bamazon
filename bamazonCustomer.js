@@ -60,6 +60,7 @@ function customerStart() {
         // }
         var i = (parseInt(answer.itemIdQuery) - 1);
         console.log("rowsstockquantity " + res[i].stock_quantity);
+        console.log("answer.quantity " + answer.quantity);
         if (answer.quantity <= res[i].stock_quantity
         ) {
           var query = connection.query(
@@ -67,7 +68,7 @@ function customerStart() {
             [
               {
                 //ParseInt, ParseFloat? Add set after colon
-                stock_quantity: (res[0].stock_quantity - parseInt(answer.quantity))
+                stock_quantity: (res[i].stock_quantity - parseInt(answer.quantity))
               },
               {
                 item_id: answer.itemIdQuery
@@ -75,7 +76,7 @@ function customerStart() {
             ],
             function (err, res) {
               if (err) throw err;
-              console.log(res[i].product_name + " inventory updated!\n");
+              // console.log(res[i].product_name + " inventory updated!\n");
               // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
               // console.log("The total cost of your purchase will be $" + totalPrice);
               // console.log("answquant " + parseInt(answer.quantity));
@@ -86,6 +87,7 @@ function customerStart() {
           var itemQuant = parseInt(answer.quantity);
           console.log("itemQuant" + itemQuant);
           var totalPrice = (itemCost * itemQuant);
+          console.log(res[i].product_name + " inventory updated!\n");
           console.log("The total cost of your purchase will be $" + totalPrice);
           // console.log("answquant " + parseInt(answer.quantity));
         }
