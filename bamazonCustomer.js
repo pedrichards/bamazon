@@ -29,7 +29,7 @@ function customerStart() {
   connection.query("SELECT * FROM auctions", function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
-    console.log(res);
+    console.log(JSON.parse(JSON.stringify(res)));
     // inquireItems();
     inquirer.prompt([
       {
@@ -58,7 +58,7 @@ function customerStart() {
             [
               {
                 //ParseInt, ParseFloat? Add set after colon
-                stock_quantity: --answer.quantity
+                stock_quantity: (res[0].stock_quantity - parseInt(answer.quantity))
               },
               {
                 item_id: answer.itemIdQuery
@@ -67,9 +67,14 @@ function customerStart() {
             function (err, res) {
               if (err) throw err;
               console.log(res.affectedRows + " inventory updated!\n");
+              // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
+              // console.log("The total cost of your purchase will be $" + totalPrice);
+              // console.log("answquant " + parseInt(answer.quantity));
             }
           );
-          console.log("The total cost of your purchase will be $" + (res[0].price * answer.quantity));
+          // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
+          // console.log("The total cost of your purchase will be $" + totalPrice);
+          // console.log("answquant " + parseInt(answer.quantity));
         }
         else {
           console.log("Insufficient Quantity")
