@@ -25,6 +25,7 @@ connection.connect(function (err) {
 
 // function which prompts the user for id of that item they would like to buy
 function customerStart() {
+  readItems();
   inquirer.prompt([
     {
       type: "input",
@@ -39,6 +40,7 @@ function customerStart() {
   ])
     .then(function (answer) {
       //
+      console.log("answer.itemIdQuery " + answer.itemIdQuery)
       var i = answer.itemIdQuery;
       if (answer.quantity >= rows[i].stock_quantity
       ) {
@@ -65,6 +67,16 @@ function customerStart() {
         // connection.end();
       }
     });
+}
+
+function readItems() {
+  console.log("Displaying information for all items...\n");
+  connection.query("SELECT * FROM auctions", function (err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.log(res);
+    connection.end();
+  });
 }
 
 // // function to handle posting new items up for auction
