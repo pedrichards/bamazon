@@ -28,8 +28,17 @@ function customerStart() {
   console.log("Displaying information for all items...\n");
   connection.query("SELECT * FROM auctions", function (err, res) {
     if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(JSON.parse(JSON.stringify(res)));
+    var info;
+    // for (var i = 0; i < res.length; i++) {
+    //   info = '';
+    //   info += 'Item ID: ' + res[i].item_id + '\n';
+    //   info += 'Product Name: ' + res[i].product_name + '\n';
+    //   info += 'Department: ' + res[i].department_name + '\n';
+    //   info += 'Price: $' + res[i].price + '\n \n';
+
+    //   console.log(info);
+    // }
+    console.log("result", JSON.parse(JSON.stringify(res)));
     // inquireItems();
     inquirer.prompt([
       {
@@ -49,9 +58,9 @@ function customerStart() {
         // for (var i in rows) {
         //   console.log(rows[i]);
         // }
-        // var i = answer.itemIdQuery;
-        console.log("rowsstockquantity " + res[0].stock_quantity);
-        if (answer.quantity <= res[0].stock_quantity
+        var i = (parseInt(answer.itemIdQuery) - 1);
+        console.log("rowsstockquantity " + res[i].stock_quantity);
+        if (answer.quantity <= res[i].stock_quantity
         ) {
           var query = connection.query(
             "UPDATE auctions SET ? WHERE ?",
@@ -66,14 +75,18 @@ function customerStart() {
             ],
             function (err, res) {
               if (err) throw err;
-              console.log(res.affectedRows + " inventory updated!\n");
+              console.log(res[i].product_name + " inventory updated!\n");
               // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
               // console.log("The total cost of your purchase will be $" + totalPrice);
               // console.log("answquant " + parseInt(answer.quantity));
             }
           );
-          // var totalPrice = (parseInt(answer.quantity) * parseInt(res[0].price));
-          // console.log("The total cost of your purchase will be $" + totalPrice);
+          var itemCost = parseInt(res[i].price);
+          console.log("itemcost " + itemCost);
+          var itemQuant = parseInt(answer.quantity);
+          console.log("itemQuant" + itemQuant);
+          var totalPrice = (itemCost * itemQuant);
+          console.log("The total cost of your purchase will be $" + totalPrice);
           // console.log("answquant " + parseInt(answer.quantity));
         }
         else {
