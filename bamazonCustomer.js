@@ -27,18 +27,18 @@ connection.connect(function (err) {
 function customerStart() {
   console.log("Displaying information for all items...\n");
   connection.query("SELECT * FROM auctions", function (err, res) {
-    if (err) throw err;
-    var info;
-    for (var i = 0; i < res.length; i++) {
-      info = '';
-      info += 'Item ID: ' + res[i].item_id + '\n';
-      info += 'Product Name: ' + res[i].product_name + '\n';
-      info += 'Department: ' + res[i].department_name + '\n';
-      info += 'Price: $' + res[i].price + '\n \n';
+    //   if (err) throw err;
+    //   var info;
+    //   for (var i = 0; i < res.length; i++) {
+    //     info = '';
+    //     info += 'Item ID: ' + res[i].item_id + '\n';
+    //     info += 'Product Name: ' + res[i].product_name + '\n';
+    //     info += 'Department: ' + res[i].department_name + '\n';
+    //     info += 'Price: $' + res[i].price + '\n \n';
 
-      console.log(info);
-    }
-    // console.log("result", JSON.parse(JSON.stringify(res)));
+    //     console.log(info);
+    //   }
+    console.log("result", JSON.parse(JSON.stringify(res)));
     inquirer.prompt([
       {
         type: "input",

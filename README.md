@@ -14,6 +14,7 @@ The user to operate the program must open mysql, and initialize the database. Th
 link on vimeo.com 
 [Vimeo Link](https://vimeo.com/361924197) (shows functionality in terminal in VS Code)
 [Vimeo Link](https://vimeo.com/362050836) (shows MYSQL being updated)
+[Vimeo Link](https://vimeo.com/362052382) (shows database from MYSQL as updated by console.logging quantity through entire JSON object in terminal)
 
 #Technologies used
 *Node.js
