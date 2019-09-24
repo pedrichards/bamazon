@@ -12,7 +12,8 @@ The user to operate the program must open mysql, and initialize the database. Th
 
 #APP FUNCTIONING
 link on vimeo.com 
-[Vimeo Link](https://vimeo.com/361924197)
+[Vimeo Link](https://vimeo.com/361924197) (shows functionality in terminal in VS Code)
+[Vimeo Link](https://vimeo.com/362050836) (shows MYSQL being updated)
 
 #Technologies used
 *Node.js
